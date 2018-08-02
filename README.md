@@ -4,7 +4,7 @@ This repo contains my solution to the Stanford course "[NLP with Deep Learning](
 
 In this repo, you can find:
 
-- The original assignments without solution (Assignments.rar).
+- The original assignments without solution ([Assignments.rar](https://github.com/Anwarvic/Stanford_CS224n--NLP-with-Deep-Learning/blob/master/Assignments.rar)).
 - My solution to the assignment.
 
 
