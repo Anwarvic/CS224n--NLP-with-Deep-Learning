@@ -49,7 +49,9 @@ def getSentenceFeatures(tokens, wordVectors, sentence):
     sentVector = np.zeros((wordVectors.shape[1],))
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    word_indices = [tokens[word] for word in sentence]
+    #average word vectors/embeddings
+    sentVector = np.mean(np.take(wordVectors, indices=word_indices, axis=0), axis=0)
     ### END YOUR CODE
 
     assert sentVector.shape == (wordVectors.shape[1],)
@@ -63,7 +65,7 @@ def getRegularizationValues():
     """
     values = None   # Assign a list of floats in the block below
     ### YOUR CODE HERE
-    raise NotImplementedError
+    values = np.logspace(-3, 1, num=100, base=10)
     ### END YOUR CODE
     return sorted(values)
 
@@ -87,7 +89,7 @@ def chooseBestModel(results):
     bestResult = None
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    bestResult = max(results, key=lambda x: x['dev'])
     ### END YOUR CODE
 
     return bestResult
@@ -237,11 +239,11 @@ def main(args):
 
     # do some error analysis
     if args.pretrained:
-        plotRegVsAccuracy(regValues, results, "q4_reg_v_acc.png")
+        plotRegVsAccuracy(regValues, results, "figures/q4_reg_v_acc.png")
         outputConfusionMatrix(devFeatures, devLabels, bestResult["clf"],
-                              "q4_dev_conf.png")
+                              "figures/q4_dev_conf.png")
         outputPredictions(devset, devFeatures, devLabels, bestResult["clf"],
-                          "q4_dev_pred.txt")
+                          "output/q4_dev_pred.txt")
 
 
 if __name__ == "__main__":
