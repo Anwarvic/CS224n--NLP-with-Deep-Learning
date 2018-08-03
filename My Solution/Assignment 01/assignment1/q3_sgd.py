@@ -77,7 +77,7 @@ def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,
     if not postprocessing:
         postprocessing = lambda x: x
 
-    expcost = None
+    expcost = 0  #<- I changed this to be (0) rather than (None)
 
     for iter in xrange(start_iter + 1, iterations + 1):
         # Don't forget to apply the postprocessing after every iteration!
@@ -85,7 +85,10 @@ def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,
 
         cost = None
         ### YOUR CODE HERE
-        raise NotImplementedError
+        cost, gradient = f(x)
+        expcost += cost if expcost else cost
+        x -= step*gradient  #update
+        postprocessing(x)   #postprocess
         ### END YOUR CODE
 
         if iter % PRINT_EVERY == 0:
@@ -109,16 +112,16 @@ def sanity_check():
 
     print "Running sanity checks..."
     t1 = sgd(quad, 0.5, 0.01, 1000, PRINT_EVERY=100)
-    print "test 1 result:", t1
-    assert abs(t1) <= 1e-6
+    assert abs(t1) <= 1e-6, t1
+    print "Passed the first test"
 
     t2 = sgd(quad, 0.0, 0.01, 1000, PRINT_EVERY=100)
-    print "test 2 result:", t2
-    assert abs(t2) <= 1e-6
+    assert abs(t2) <= 1e-6, t2
+    print "Passed the second test"
 
     t3 = sgd(quad, -1.5, 0.01, 1000, PRINT_EVERY=100)
-    print "test 3 result:", t3
-    assert abs(t3) <= 1e-6
+    assert abs(t3) <= 1e-6, t3
+    print "Passed the third test"
 
     print ""
 
@@ -132,10 +135,10 @@ def your_sanity_checks():
     """
     print "Running your sanity checks..."
     ### YOUR CODE HERE
-    raise NotImplementedError
+    
     ### END YOUR CODE
 
 
 if __name__ == "__main__":
     sanity_check()
-    your_sanity_checks()
+    # your_sanity_checks()
