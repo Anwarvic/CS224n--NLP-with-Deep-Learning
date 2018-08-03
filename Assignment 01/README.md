@@ -404,6 +404,8 @@ That is it.... Congrats!!!
 
 While solving the `q4_sentiment.py` problem, it's essential to use good values for Regularization Parameter. It's a good practice to try different values on the logarithmic scale first, then try smaller values and smaller. So, the very first values I used were `[0.0001, 0.001, 0.01, 0.1, 1, 10, 100]`. The performance plot was:
 
- ![reg_vs_acc](http://www.mediafire.com/convkey/e8c8/ecim4kwcj6acyzvzg.jpg)As we can see, the dev accuracy were at its peak when $\lambda = 10$, but we can see that the train accuracy was declining.... this means that the range between [0.001 : 10] is a good range. Now, let's try a lot of values in this range and see the accuracy again:
+ ![reg_vs_acc](http://www.mediafire.com/convkey/e8c8/ecim4kwcj6acyzvzg.jpg)
+
+As we can see, the dev accuracy were at its peak when $\lambda = 10$, but we can see that the train accuracy was declining.... this means that the range between [0.001 : 10] is a good range. Now, let's try a lot of values in this range and see the accuracy again:
 
 ![reg_vs_acc](http://www.mediafire.com/convkey/fe68/n7mn9fv7q91mi5ozg.jpg)
