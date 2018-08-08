@@ -2,7 +2,7 @@
 
 ## Requirements
 
-To be able to solve this assignment, we need to install a few packages which can be found in the *requirements.text* file and a few datasets which can be downloaded by simply running the bash script *get_datasets.sh*. 
+To be able to solve this assignment, we need to install a few packages which can be found in the `requirements.txt` file and a few datasets which can be downloaded by simply running the bash script `get_datasets.sh`. 
 
 ---
 
@@ -182,7 +182,7 @@ Implementing this part should be pretty straight-forward!!
 
 
 
-#### 5) cbow
+#### 5) cbow (OPTIONAL)
 
 Now to the last function we need to implement in this part. CBOW or Continuous Bag-of-Words is another flavor of the Word2Vec model. The major difference between Skip-Gram and CBOW is the shape of the input layer of the network. So, if we understand the Skip-Gram model then the CBOW model should be quite straight-forward because in many ways they are mirror images of each other. 
 
