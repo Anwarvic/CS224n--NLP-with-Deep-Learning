@@ -20,4 +20,4 @@ Natural language processing (NLP) is one of the most important technologies of t
 
 
 ## Material
-You can download all the materials from the Stanford official website of the course which can be found [here](http://web.stanford.edu/class/cs224n/).
+You can download all the materials from the Course official website which can be found [here](http://web.stanford.edu/class/cs224n/).
