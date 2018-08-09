@@ -45,6 +45,11 @@ class SoftmaxModel(Model):
             self.labels_placeholder
         """
         ### YOUR CODE HERE
+        input_shape = [self.config.batch_size, self.config.n_features]
+        self.input_placeholder = tf.placeholder(shape=input_shape, dtype=tf.float32)
+
+        label_shape = [self.config.batch_size, self.config.n_classes]
+        self.labels_placeholder = tf.placeholder(shape=label_shape, dtype=tf.int32)
         ### END YOUR CODE
 
     def create_feed_dict(self, inputs_batch, labels_batch=None):
@@ -68,6 +73,8 @@ class SoftmaxModel(Model):
             feed_dict: The feed dictionary mapping from placeholders to values.
         """
         ### YOUR CODE HERE
+        feed_dict = {self.input_placeholder: inputs_batch,
+                     self.labels_placeholder: labels_batch}
         ### END YOUR CODE
         return feed_dict
 
@@ -83,11 +90,17 @@ class SoftmaxModel(Model):
                     and biases b with zeros.
 
         Args:
-            input_data: A tensor of shape (batch_size, n_features).
+            self.input_placeholder: A tensor of shape (batch_size, n_features).
         Returns:
             pred: A tensor of shape (batch_size, n_classes)
         """
         ### YOUR CODE HERE
+        w_shape = [self.config.n_features, self.config.n_classes]
+        w = tf.get_variable(name='w', shape=w_shape, initializer=tf.zeros_initializer())
+        b_shape = [1, self.config.n_classes]
+
+        b = tf.get_variable(name='b', shape=b_shape, initializer=tf.zeros_initializer())
+        pred = softmax(tf.add(tf.matmul(self.input_placeholder, w), b))
         ### END YOUR CODE
         return pred
 
@@ -102,6 +115,7 @@ class SoftmaxModel(Model):
             loss: A 0-d tensor (scalar)
         """
         ### YOUR CODE HERE
+        loss = cross_entropy_loss(self.labels_placeholder, pred)
         ### END YOUR CODE
         return loss
 
@@ -125,6 +139,7 @@ class SoftmaxModel(Model):
             train_op: The Op for training.
         """
         ### YOUR CODE HERE
+        train_op = tf.train.GradientDescentOptimizer(self.config.lr).minimize(loss)
         ### END YOUR CODE
         return train_op
 
@@ -159,18 +174,19 @@ class SoftmaxModel(Model):
             start_time = time.time()
             average_loss = self.run_epoch(sess, inputs, labels)
             duration = time.time() - start_time
-            print 'Epoch {:}: loss = {:.2f} ({:.3f} sec)'.format(epoch, average_loss, duration)
+            print('Epoch {:}: loss = {:.2f} ({:.3f} sec)'.format(epoch, average_loss, duration))
             losses.append(average_loss)
         return losses
 
     def __init__(self, config):
         """Initializes the model.
-
         Args:
             config: A model configuration object of type Config
         """
         self.config = config
         self.build()
+
+
 
 
 def test_softmax_model():
@@ -203,7 +219,9 @@ def test_softmax_model():
     # If Ops are implemented correctly, the average loss should fall close to zero
     # rapidly.
     assert losses[-1] < .5
-    print "Basic (non-exhaustive) classifier tests pass"
+    print("Basic (non-exhaustive) classifier tests pass")
+
+
 
 if __name__ == "__main__":
     test_softmax_model()
