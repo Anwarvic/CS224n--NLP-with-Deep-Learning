@@ -25,6 +25,8 @@ def xavier_weight_init():
             out: tf.Tensor of specified shape sampled from the Xavier distribution.
         """
         ### YOUR CODE HERE
+        epsilon = np.sqrt(6)/sum(shape)
+        out = tf.random_uniform(shape=shape, minval=-epsilon, maxval=epsilon)
         ### END YOUR CODE
         return out
     # Returns defined initializer function.
@@ -34,7 +36,7 @@ def xavier_weight_init():
 def test_initialization_basic():
     """Some simple tests for the initialization.
     """
-    print "Running basic tests..."
+    print("Running basic tests...")
     xavier_initializer = xavier_weight_init()
     shape = (1,)
     xavier_mat = xavier_initializer(shape)
@@ -43,7 +45,7 @@ def test_initialization_basic():
     shape = (1, 2, 3)
     xavier_mat = xavier_initializer(shape)
     assert xavier_mat.get_shape() == shape
-    print "Basic (non-exhaustive) Xavier initialization tests pass"
+    print("Basic (non-exhaustive) Xavier initialization tests pass")
 
 
 if __name__ == "__main__":
