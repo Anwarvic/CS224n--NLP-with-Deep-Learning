@@ -15,15 +15,21 @@ def softmax(x):
     fixes as in the previous homework!
 
     Args:
-        x:   tf.Tensor with shape (n_samples, n_features). Note feature vectors are
+        x: tf.Tensor with shape (n_samples, n_features). Note feature vectors are
                   represented by row-vectors. (For simplicity, no need to handle 1-d
                   input as in the previous homework)
     Returns:
         out: tf.Tensor with shape (n_sample, n_features). You need to construct this
                   tensor in this problem.
     """
-
     ### YOUR CODE HERE
+    #let's use the softmax property which states that softmax(x)==softmax(x+c).
+    #I'm going to use c as the maximum number for each row
+    out = tf.subtract(x, tf.reduce_max(x, axis=1, keepdims=True))
+    out = tf.divide(tf.exp(out), tf.reduce_sum(tf.exp(out), axis=1, keepdims=True))
+    #make sure of the shape
+    assert x.get_shape().as_list() == out.get_shape().as_list(), \
+                    print(x.get_shape().as_list, '\t', out.get_shape().as_list())
     ### END YOUR CODE
 
     return out
@@ -52,8 +58,9 @@ def cross_entropy_loss(y, yhat):
         out:  tf.Tensor with shape (1,) (Scalar output). You need to construct this
                     tensor in the problem.
     """
-
+    #-np.log(model_predictions[target])
     ### YOUR CODE HERE
+    out = -tf.reduce_sum(tf.multiply( tf.to_float(y), tf.log(yhat) ))
     ### END YOUR CODE
 
     return out
@@ -76,7 +83,7 @@ def test_softmax_basic():
             test2 = sess.run(test2)
     test_all_close("Softmax test 2", test2, np.array([[0.73105858, 0.26894142]]))
 
-    print "Basic (non-exhaustive) softmax tests pass\n"
+    print("Basic (non-exhaustive) softmax tests pass\n")
 
 
 def test_cross_entropy_loss_basic():
@@ -95,7 +102,9 @@ def test_cross_entropy_loss_basic():
     expected = -3 * np.log(.5)
     test_all_close("Cross-entropy test 1", test1, expected)
 
-    print "Basic (non-exhaustive) cross-entropy tests pass"
+    print("Basic (non-exhaustive) cross-entropy tests pass")
+
+
 
 if __name__ == "__main__":
     test_softmax_basic()
