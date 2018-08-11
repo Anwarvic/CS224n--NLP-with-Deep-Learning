@@ -95,6 +95,7 @@ class SoftmaxModel(Model):
             pred: A tensor of shape (batch_size, n_classes)
         """
         ### YOUR CODE HERE
+        #I will use get_variable() instead of tf.Variable because the latter is discouraged!!
         w_shape = [self.config.n_features, self.config.n_classes]
         w = tf.get_variable(name='w', shape=w_shape, initializer=tf.zeros_initializer())
         b_shape = [1, self.config.n_classes]
