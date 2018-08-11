@@ -1,12 +1,11 @@
 """Utilities for training the dependency parser.
 You do not need to read/understand this code
 """
-
 import time
 import os
 import logging
 from collections import Counter
-from general_utils import logged_loop, get_minibatches
+from utils.general_utils import logged_loop, get_minibatches
 from q2_parser_transitions import PartialParse, minibatch_parse
 
 import numpy as np
@@ -122,7 +121,7 @@ class Parser(object):
             p_features = [self.P_NULL] * (3 - len(stack)) + [ex['pos'][x] for x in stack[-3:]]
             p_features += [ex['pos'][x] for x in buf[:3]] + [self.P_NULL] * (3 - len(buf))
 
-        for i in xrange(2):
+        for i in range(2):
             if i < len(stack):
                 k = stack[-i-1]
                 lc = get_lc(k)
@@ -199,10 +198,10 @@ class Parser(object):
 
             # arcs = {(h, t, label)}
             stack = [0]
-            buf = [i + 1 for i in xrange(n_words)]
+            buf = [i + 1 for i in range(n_words)]
             arcs = []
             instances = []
-            for i in xrange(n_words * 2):
+            for i in range(n_words * 2):
                 gold_t = self.get_oracle(stack, buf, ex)
                 if gold_t is None:
                     break
