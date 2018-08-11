@@ -120,10 +120,7 @@ def minibatch_parse(sentences, model, batch_size):
                           'stack:', len(pp.stack), pp.stack, \
                           'pred:', predicted_transition)
             #check completeness
-            for idx, pp in enumerate(minibatch_pps):
-                #remove completed parses
-                if len(pp.stack) <= 1 and len(pp.buffer) == 0:
-                    minibatch_pps.pop(idx)
+            minibatch_pps = [pp for pp in minibatch_pps if len(pp.buffer) > 0 or len(pp.stack) > 1]
 
         #remove completed parses from unfininshed parses
         unfinished_parses = unfinished_parses[batch_size:]
