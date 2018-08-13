@@ -213,6 +213,27 @@ Solving this problem is so simple, and it doesn't depend on any of the previous 
 
 Enjoy!!
 
+### q3_run (OPTIONAL)
+
+Now we are going to load some real data and train word vectors with everything
+we just implemented! We are going to use the Stanford Sentiment Treebank (SST) dataset to train word
+vectors, and later apply them to a simple sentiment analysis task. You will need to fetch the datasets. To do this, run `get datasets.sh`. There is no additional code to write for this part; just
+run the script.
+
+The training process may take an hour. And here is the last few lines of the output I got from running this script:
+
+```
+iter 39980: 1875.620067
+iter 39990: 1879.090583
+iter 40000: 1876.408850
+sanity check: cost at convergence should be around or below 10
+training took 46640 seconds
+```
+
+When the script finishes, a visualization for our word vectors will appear in the `figures` directory. It will also be saved as `q3 word vectors.png` which could look like this:
+
+![q3_word_vectors](http://www.mediafire.com/convkey/019b/qya906w7wg0aw2wzg.jpg)
+
 ---
 
 ## q4
@@ -396,7 +417,7 @@ This function takes a list of dictionaries each dictionary has these keys:
 - `dev`: which represents the accuracy of the classifier over the development dataset.
 - `test`: which represents the accuracy of the classifier over the testing dataset.
 
-Now, after implementing these functions, we can run the script by typing `python q4_sentiment.py --pretrained` to train the model using the `glove.6B.50d.txt` pre-trained GloVe vectors.
+Now, after implementing these functions, we can run the script by typing `python q4_sentiment.py --pretrained` to train the model using the `glove.6B.50d.txt` pre-trained GloVe vectors OR use `python q4_sentiment.py --yourvectors` to train the model using the `saved_params_xxxxx.npy` instead. 
 
 That is it.... Congrats!!!
 
