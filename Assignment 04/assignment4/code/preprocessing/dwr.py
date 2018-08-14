@@ -12,7 +12,7 @@ if __name__ == '__main__':
     if not os.path.exists(prefix):
         os.makedirs(prefix)
 
-    glove_zip = maybe_download(glove_base_url, glove_filename, prefix, 862182613L)
+    glove_zip = maybe_download(glove_base_url, glove_filename, prefix, 862182613)
     glove_zip_ref = zipfile.ZipFile(os.path.join(prefix, glove_filename), 'r')
 
     glove_zip_ref.extractall(prefix)

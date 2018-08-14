@@ -27,9 +27,9 @@ UNK_ID = 2
 def setup_args():
     parser = argparse.ArgumentParser()
     code_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-    vocab_dir = os.path.join("data", "squad")
-    glove_dir = os.path.join("download", "dwr")
-    source_dir = os.path.join("data", "squad")
+    vocab_dir = os.path.join("preprocessing", "data", "squad")
+    glove_dir = os.path.join("preprocessing", "download", "dwr")
+    source_dir = os.path.join("preprocessing", "data", "squad")
     parser.add_argument("--source_dir", default=source_dir)
     parser.add_argument("--glove_dir", default=glove_dir)
     parser.add_argument("--vocab_dir", default=vocab_dir)
@@ -41,7 +41,7 @@ def setup_args():
 def basic_tokenizer(sentence):
     words = []
     for space_separated_fragment in sentence.strip().split():
-        words.extend(re.split(" ", space_separated_fragment))
+        words.extend(re.split(b" ", space_separated_fragment))
     return [w for w in words if w]
 
 
@@ -49,9 +49,9 @@ def initialize_vocabulary(vocabulary_path):
     # map vocab to word embeddings
     if gfile.Exists(vocabulary_path):
         rev_vocab = []
-        with gfile.GFile(vocabulary_path, mode="r") as f:
+        with gfile.GFile(vocabulary_path, mode="rb") as f:
             rev_vocab.extend(f.readlines())
-        rev_vocab = [line.strip('\n') for line in rev_vocab]
+        rev_vocab = [line.strip(b'\n') for line in rev_vocab]
         vocab = dict([(x, y) for (y, x) in enumerate(rev_vocab)])
         return vocab, rev_vocab
     else:
@@ -70,9 +70,9 @@ def process_glove(args, vocab_list, save_path, size=4e5, random_init=True):
         else:
             glove = np.zeros((len(vocab_list), args.glove_dim))
         found = 0
-        with open(glove_path, 'r') as fh:
+        with open(glove_path, 'rb') as fh:
             for line in tqdm(fh, total=size):
-                array = line.lstrip().rstrip().split(" ")
+                array = line.lstrip().rstrip().split(b" ")
                 word = array[0]
                 vector = list(map(float, array[1:]))
                 if word in vocab_list:
@@ -131,7 +131,7 @@ def data_to_token_ids(data_path, target_path, vocabulary_path,
         print("Tokenizing data in %s" % data_path)
         vocab, _ = initialize_vocabulary(vocabulary_path)
         with gfile.GFile(data_path, mode="rb") as data_file:
-            with gfile.GFile(target_path, mode="w") as tokens_file:
+            with gfile.GFile(target_path, mode="wb") as tokens_file:
                 counter = 0
                 for line in data_file:
                     counter += 1
@@ -141,10 +141,11 @@ def data_to_token_ids(data_path, target_path, vocabulary_path,
                     tokens_file.write(" ".join([str(tok) for tok in token_ids]) + "\n")
 
 
+
+
 if __name__ == '__main__':
     args = setup_args()
     vocab_path = pjoin(args.vocab_dir, "vocab.dat")
-
     train_path = pjoin(args.source_dir, "train")
     valid_path = pjoin(args.source_dir, "val")
     dev_path = pjoin(args.source_dir, "dev")
@@ -158,8 +159,7 @@ if __name__ == '__main__':
 
     # ======== Trim Distributed Word Representation =======
     # If you use other word representations, you should change the code below
-
-    process_glove(args, rev_vocab, args.source_dir + "/glove.trimmed.{}".format(args.glove_dim),
+    process_glove(args, rev_vocab, pjoin(args.source_dir, "glove.trimmed.{}".format(args.glove_dim)),
                   random_init=args.random_init)
 
     # ======== Creating Dataset =========

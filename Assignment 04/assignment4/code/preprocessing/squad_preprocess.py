@@ -12,8 +12,9 @@ import random
 from collections import Counter
 from six.moves.urllib.request import urlretrieve
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+import importlib
+importlib.reload(sys)
+
 random.seed(42)
 np.random.seed(42)
 
@@ -78,7 +79,7 @@ def list_topics(data):
 
 def tokenize(sequence):
     tokens = [token.replace("``", '"').replace("''", '"') for token in nltk.word_tokenize(sequence)]
-    return map(lambda x:x.encode('utf8'), tokens)
+    return list(map(lambda x:x, tokens))
 
 
 def token_idx_map(context, context_tokens):
@@ -89,7 +90,7 @@ def token_idx_map(context, context_tokens):
     for char_idx, char in enumerate(context):
         if char != u' ':
             acc += char
-            context_token = unicode(context_tokens[current_token_idx])
+            context_token = context_tokens[current_token_idx]###
             if acc == context_token:
                 syn_start = char_idx - len(acc) + 1
                 token_map[syn_start] = [acc, current_token_idx]
@@ -99,7 +100,7 @@ def token_idx_map(context, context_tokens):
 
 
 def invert_map(answer_map):
-    return {v[1]: [v[0], k] for k, v in answer_map.iteritems()}
+    return {v[1]: [v[0], k] for k, v in answer_map.items()}
 
 
 def read_write_dataset(dataset, tier, prefix):
@@ -109,10 +110,10 @@ def read_write_dataset(dataset, tier, prefix):
     qn, an = 0, 0
     skipped = 0
 
-    with open(os.path.join(prefix, tier +'.context'), 'w') as context_file,  \
-         open(os.path.join(prefix, tier +'.question'), 'w') as question_file,\
-         open(os.path.join(prefix, tier +'.answer'), 'w') as text_file, \
-         open(os.path.join(prefix, tier +'.span'), 'w') as span_file:
+    with open(os.path.join(prefix, tier +'.context'), 'wb') as context_file,  \
+         open(os.path.join(prefix, tier +'.question'), 'wb') as question_file,\
+         open(os.path.join(prefix, tier +'.answer'), 'wb') as text_file, \
+         open(os.path.join(prefix, tier +'.span'), 'wb') as span_file:
 
         for articles_id in tqdm(range(len(dataset['data'])), desc="Preprocessing {}".format(tier)):
             article_paragraphs = dataset['data'][articles_id]['paragraphs']
@@ -151,14 +152,13 @@ def read_write_dataset(dataset, tier, prefix):
 
                         try:
                             a_start_idx = answer_map[answer_start][1]
-
                             a_end_idx = answer_map[answer_end - last_word_answer][1]
 
                             # remove length restraint since we deal with it later
-                            context_file.write(' '.join(context_tokens) + '\n')
-                            question_file.write(' '.join(question_tokens) + '\n')
-                            text_file.write(' '.join(text_tokens) + '\n')
-                            span_file.write(' '.join([str(a_start_idx), str(a_end_idx)]) + '\n')
+                            context_file.write(' '.join(context_tokens).encode() + b'\n')
+                            question_file.write(' '.join(question_tokens).encode() + b'\n')
+                            text_file.write(' '.join(text_tokens).encode() + b'\n')
+                            span_file.write(' '.join([str(a_start_idx), str(a_end_idx)]).encode() + b'\n')
 
                         except Exception as e:
                             skipped += 1
@@ -170,34 +170,36 @@ def read_write_dataset(dataset, tier, prefix):
 
 
 def save_files(prefix, tier, indices):
-  with open(os.path.join(prefix, tier + '.context'), 'w') as context_file,  \
-     open(os.path.join(prefix, tier + '.question'), 'w') as question_file,\
-     open(os.path.join(prefix, tier + '.answer'), 'w') as text_file, \
-     open(os.path.join(prefix, tier + '.span'), 'w') as span_file:
+  with open(os.path.join(prefix, tier + '.context'), 'wb') as context_file,  \
+     open(os.path.join(prefix, tier + '.question'), 'wb') as question_file,\
+     open(os.path.join(prefix, tier + '.answer'), 'wb') as text_file, \
+     open(os.path.join(prefix, tier + '.span'), 'wb') as span_file:
 
     for i in indices:
-      context_file.write(linecache.getline(os.path.join(prefix, 'train.context'), i))
-      question_file.write(linecache.getline(os.path.join(prefix, 'train.question'), i))
-      text_file.write(linecache.getline(os.path.join(prefix, 'train.answer'), i))
-      span_file.write(linecache.getline(os.path.join(prefix, 'train.span'), i))
+      context_file.write(linecache.getline(os.path.join(prefix, 'train.context'), i).encode())
+      question_file.write(linecache.getline(os.path.join(prefix, 'train.question'), i).encode())
+      text_file.write(linecache.getline(os.path.join(prefix, 'train.answer'), i).encode())
+      span_file.write(linecache.getline(os.path.join(prefix, 'train.span'), i).encode())
 
 
 def split_tier(prefix, train_percentage = 0.9, shuffle=False):
     # Get number of lines in file
     context_filename = os.path.join(prefix, 'train' + '.context')
     # Get the number of lines
-    with open(context_filename) as current_file:
+    with open(context_filename, 'rb') as current_file:
         num_lines = sum(1 for line in current_file)
     # Get indices and split into two files
-    indices_dev = range(num_lines)[int(num_lines * train_percentage)::]
+    indices_dev = list(range(num_lines))[int(num_lines * train_percentage)::]
     if shuffle:
         np.random.shuffle(indices_dev)
         print("Shuffling...")
+    
     save_files(prefix, 'val', indices_dev)
-    indices_train = range(num_lines)[:int(num_lines * train_percentage)]
+    indices_train = list(range(num_lines))[:int(num_lines * train_percentage)]
     if shuffle:
         np.random.shuffle(indices_train)
     save_files(prefix, 'train', indices_train)
+
 
 
 if __name__ == '__main__':
@@ -216,12 +218,10 @@ if __name__ == '__main__':
     train_filename = "train-v1.1.json"
     dev_filename = "dev-v1.1.json"
 
-    maybe_download(squad_base_url, train_filename, download_prefix, 30288272L)
-
+    maybe_download(squad_base_url, train_filename, download_prefix, 30288272)
     train_data = data_from_json(os.path.join(download_prefix, train_filename))
 
     train_num_questions, train_num_answers = read_write_dataset(train_data, 'train', data_prefix)
-
     # In train we have 87k+ questions, and one answer per question.
     # The answer start range is also indicated
 
@@ -233,7 +233,7 @@ if __name__ == '__main__':
     print("Processed {} questions and {} answers in train".format(train_num_questions, train_num_answers))
 
     print("Downloading {}".format(dev_filename))
-    dev_dataset = maybe_download(squad_base_url, dev_filename, download_prefix, 4854279L)
+    dev_dataset = maybe_download(squad_base_url, dev_filename, download_prefix, 4854279)
 
     # In dev, we have 10k+ questions, and around 3 answers per question (totaling
     # around 34k+ answers).
