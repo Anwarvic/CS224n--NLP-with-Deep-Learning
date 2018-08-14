@@ -9,7 +9,7 @@ Essentially, this assignment was made for python2.7 and TensorFlow 0.12. But now
 Second, you also should install all needed dependencies through
 `pip install -r requirements.txt`.
 
-Finally, running `get_started.sh` is no good for me as this file downloads a huge amount of data which is no good for me as my bandwidth rate is pretty low. So, I had to download everything one at a time. You follow the same steps I took by following these steps:
+Finally, running `get_started.sh` is no good for me as this file downloads a huge amount of data which is no good for me as my bandwidth rate is pretty low. So, I had to download everything one at a time. You follow the same steps I took by following these steps (**CAUTION**: All the following steps assumes that you are in the `code` directory):
 
 1. install NLTK and its "popular" collection. You can do that by opening the terminal and typing the following:
 
@@ -22,8 +22,7 @@ Finally, running `get_started.sh` is no good for me as this file downloads a hug
 2. Now, all we need is to run the `squad_preprocess.py` file which is in charge of downloading and formatting the SQUAD data to be consumed later; assuming you are in the `code` directory:
 
    ```python
-   $ cd preprocessing
-   $ python squad_preprocess.py
+   $ python preprocessing/squad_preprocess.py
    Downloading datasets into download\squad
    Preprocessing datasets into data\squad
    File train-v1.1.json successfully loaded
@@ -51,10 +50,10 @@ Finally, running `get_started.sh` is no good for me as this file downloads a hug
 
    ```
 
-   Now, we have to do the same with `dwr.py` which is responsible for Downloading distributed word representations (GloVe); assuming you're still in the `preprocessing` directory:
+   Now, we have to do the same with `dwr.py` which is responsible for Downloading distributed word representations (GloVe); assuming you're still in the `code` directory:
 
    ```python
-   $ python dwr.py
+   $ python preprocessing/dwr.py
    Storing datasets in download\dwr
    Downloading file http://nlp.stanford.edu/data/glove.6B.zip...
    glove.6B.zip:   100%|███████████████████████████████████████████████████████████| 57.3k/862M [02:24<799:17:04, 300B/s]
@@ -69,10 +68,9 @@ Finally, running `get_started.sh` is no good for me as this file downloads a hug
    glove.6B.300d.txt     (~1   GB)
    ```
 
-3. Now, we have to run `qa_data.py` which is responsible for Data processing for TensorFlow; assuming you are still in the `preprocessing` directory:
+3. Now, we have to run `qa_data.py` which is responsible for Data processing for TensorFlow; assuming you are still in the `code` directory:
 
    ```python
-   $ cd ..
    $ python qa_data.py
    100%|██████████████████████████████████████████████████████████████████████| 400000/400000.0 [1:31:50<00:00, 72.59it/s]
    93844/115746 of word vocab have corresponding vectors in preprocessing\download\dwr\glove.6B.100d.txt
@@ -121,9 +119,8 @@ Finally, running `get_started.sh` is no good for me as this file downloads a hug
    vocab.dat                 (~2 MB)
    ```
 
-4. Now, we can move the directory `data` into the parent directory `code`. Now, in the `code` directory, we have to sub-directories which are `data` and `preprocessing`.
+4. Now, after doing all of that, we can delete `download` directory.
 
-5. Now, after doing all of that, you can move  `preprocessing\download` directory outside the `code` directory.
 
 
 Now, we are ready to start our assignment!
