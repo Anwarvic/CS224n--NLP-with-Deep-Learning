@@ -11,9 +11,13 @@ Second, you also should install all needed dependencies through
 
 Finally, running `get_started.sh` is no good for me as this file downloads a huge amount of data which is no good for me as my bandwidth rate is pretty low. And after that, it preprocesses these huge amount of data which took more than two hours on my humble laptop. So, you have two options:
 
-- Download the preprocessed data and start the assignment right away which can be done by downloading the `code\preprocess` directory from my repo.
+- Download the preprocessed data and start the assignment right away which can be done by downloading the `code\preprocessing` directory from my repo.
 - OR, go it step by step as I did.
 
+
+
+
+If you chose the second option, follow along...
 
 
 ## Download Dataset
@@ -22,7 +26,7 @@ So, I had to download everything one at a time.  You can download:
 
 -  The `SQuAD 1.1` training dataset from [here](https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v1.1.json) (~5 MB).
 -  The `SQuAD 1.1` dev dataset from [here](https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json) (~30 MB).
-- You can download the `glove.6b` word embeddings from [here](https://nlp.stanford.edu/data/glove.6B.zip) (~860 MB).
+-  You can download the `glove.6b` word embeddings from [here](https://nlp.stanford.edu/data/glove.6B.zip) (~860 MB).
 
 After manually downloading the data, locate them in a directory called `download` inside the project directory, then pass to the next step.
 
@@ -40,7 +44,7 @@ You follow the same steps I took by following these steps (**CAUTION**: All the 
 
 2. Now, all we need is to run the `squad_preprocess.py` file which is in charge of downloading and formatting the SQUAD data to be consumed later; assuming you are in the `code` directory:
 
-   ```python
+   ```powershell
    $ python preprocessing/squad_preprocess.py
    Downloading datasets into download\squad
    Preprocessing datasets into data\squad
@@ -56,7 +60,7 @@ You follow the same steps I took by following these steps (**CAUTION**: All the 
    ```
    After finishing running this file, you should find these files in `data/squad`:
 
-   ```python
+   ```powershell
    train.answer   (~2  MB)
    train.context  (~66 MB)
    train.question (~5  MB)
@@ -66,12 +70,11 @@ You follow the same steps I took by following these steps (**CAUTION**: All the 
    val.context    (~4  MB)
    val.question   (~0.5MB)
    val.span       (~30 KB)
-
    ```
 
    Now, we have to do the same with `dwr.py` which is responsible for Downloading distributed word representations (GloVe); assuming you're still in the `code` directory:
 
-   ```python
+   ```powershell
    $ python preprocessing/dwr.py
    Storing datasets in download\dwr
    Downloading file http://nlp.stanford.edu/data/glove.6B.zip...
@@ -80,7 +83,7 @@ You follow the same steps I took by following these steps (**CAUTION**: All the 
    ```
    After finishing running this code which takes around 5 minutes, you should find the extracted data in `download\dwr` directory. And they are:
 
-   ```python
+   ```powershell
    glove.6B.50d.txt      (~167 MB)
    glove.6B.100d.txt     (~340 MB)
    glove.6B.200d.txt     (~677 MB)
@@ -89,7 +92,7 @@ You follow the same steps I took by following these steps (**CAUTION**: All the 
 
 3. Now, we have to run `qa_data.py` which is responsible for Data processing for TensorFlow; assuming you are still in the `code` directory:
 
-   ```python
+   ```powershell
    $ python qa_data.py
    100%|██████████████████████████████████████████████████████████████████████| 400000/400000.0 [1:31:50<00:00, 72.59it/s]
    93844/115746 of word vocab have corresponding vectors in preprocessing\download\dwr\glove.6B.100d.txt
@@ -133,7 +136,7 @@ You follow the same steps I took by following these steps (**CAUTION**: All the 
    ```
    After finishing running this code which takes around 1 hour and 35 minutes on my humble laptop, you should find a few files have been added to the `data\squad` directory. And they are:
 
-   ```python
+   ```powershell
    glove.trimmed.100.npz     (~65 MB)
    vocab.dat                 (~2 MB)
    train.ids.context         (~41MB)
