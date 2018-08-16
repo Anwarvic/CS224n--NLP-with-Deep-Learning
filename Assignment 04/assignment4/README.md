@@ -9,7 +9,26 @@ Essentially, this assignment was made for python2.7 and TensorFlow 0.12. But now
 Second, you also should install all needed dependencies through
 `pip install -r requirements.txt`.
 
-Finally, running `get_started.sh` is no good for me as this file downloads a huge amount of data which is no good for me as my bandwidth rate is pretty low. So, I had to download everything one at a time. You follow the same steps I took by following these steps (**CAUTION**: All the following steps assumes that you are in the `code` directory):
+Finally, running `get_started.sh` is no good for me as this file downloads a huge amount of data which is no good for me as my bandwidth rate is pretty low. And after that, it preprocesses these huge amount of data which took more than two hours on my humble laptop. So, you have two options:
+
+- Download the preprocessed data and start the assignment right away which can be done by downloading the `code\preprocess` directory from my repo.
+- OR, go it step by step as I did.
+
+
+
+## Download Dataset
+
+So, I had to download everything one at a time.  You can download:
+
+-  The `SQuAD 1.1` training dataset from [here](https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v1.1.json) (~5 MB).
+-  The `SQuAD 1.1` dev dataset from [here](https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json) (~30 MB).
+- You can download the `glove.6b` word embeddings from [here](https://nlp.stanford.edu/data/glove.6B.zip) (~860 MB).
+
+After manually downloading the data, locate them in a directory called `download` inside the project directory, then pass to the next step.
+
+## Preprocess Data
+
+You follow the same steps I took by following these steps (**CAUTION**: All the following steps assumes that you are in the `code` directory):
 
 1. install NLTK and its "popular" collection. You can do that by opening the terminal and typing the following:
 
@@ -112,11 +131,15 @@ Finally, running `get_started.sh` is no good for me as this file downloads a hug
    Tokenizing data in preprocessing\data\squad\val.context
    Tokenizing data in preprocessing\data\squad\val.question
    ```
-   After finishing running this code which takes around 1 hour and 35 minutes on my humble laptop, you should find two files have been added to the `data\squad` directory. And they are:
+   After finishing running this code which takes around 1 hour and 35 minutes on my humble laptop, you should find a few files have been added to the `data\squad` directory. And they are:
 
    ```python
    glove.trimmed.100.npz     (~65 MB)
    vocab.dat                 (~2 MB)
+   train.ids.context         (~41MB)
+   train.ids.question        (~4 MB)
+   val.ids.context           (~2 MB)
+   val.ids.question          (~170KB)
    ```
 
 4. Now, after doing all of that, we can delete `download` directory.
@@ -128,5 +151,9 @@ Now, we are ready to start our assignment!
 Enjoy!!
 
 
+
+**P.S.**
+
+If you want to understand more about the data, you should read the README.md file in the `data` directory.
 
 
