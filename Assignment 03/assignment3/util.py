@@ -433,3 +433,4 @@ def print_sentence(output, sentence, labels, predictions):
         output.write(token)
         output.write(" " * (spacing - len(token) + 1))
     output.write("\n")
+    output.close()
