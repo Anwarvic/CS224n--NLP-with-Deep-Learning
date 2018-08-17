@@ -119,3 +119,8 @@ Here, there are the outputs (for reference) that I got when running `q1_window.p
 
 ## q2
 
+According to the second question, there are two files that need to be done:
+
+- `q2_rnn_cell.py`
+- `q2_rnn.py`
+
