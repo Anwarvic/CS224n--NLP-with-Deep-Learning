@@ -224,7 +224,7 @@ class WindowModel(NERModel):
         b1 = tf.get_variable(name='b1', shape=b1_shape, initializer = tf.zeros_initializer())
         h = tf.nn.relu(tf.add(tf.matmul(x, W), b1))
 
-        h_drop = tf.nn.dropout(h, keep_prob=1-dropout_rate)
+        h_drop = tf.nn.dropout(h, keep_prob=dropout_rate)
         U_shape = [self.config.hidden_size, self.config.n_classes]
         U = tf.get_variable(name='U', shape=U_shape, initializer = tf.contrib.layers.xavier_initializer())
         b2_shape = [1, self.config.n_classes]
@@ -323,23 +323,25 @@ class WindowModel(NERModel):
 
 
 def test_make_windowed_data():
-    sentences = [[[1,1], [2,0], [3,3]]]
+    sentences = [[[1, 1], [2, 0], [3, 3]]]
     sentence_labels = [[1, 2, 3]]
     data = zip(sentences, sentence_labels)
-    w_data = make_windowed_data(data, start=[5,0], end=[6,0], window_size=1)
+    w_data = make_windowed_data(data, start=[5, 0], end=[6, 0], window_size=1)
 
     assert len(w_data) == sum(len(sentence) for sentence in sentences)
 
     assert w_data == [
-        ([5,0] + [1,1] + [2,0], 1,),
-        ([1,1] + [2,0] + [3,3], 2,),
-        ([2,0] + [3,3] + [6,0], 3,),
-        ]
+        ([5, 0] + [1, 1] + [2, 0], 1,),
+        ([1, 1] + [2, 0] + [3, 3], 2,),
+        ([2, 0] + [3, 3] + [6, 0], 3,),
+    ]
+
 
 def do_test1(_):
     logger.info("Testing make_windowed_data")
     test_make_windowed_data()
     logger.info("Passed!")
+
 
 def do_test2(args):
     logger.info("Testing implementation of WindowModel")
@@ -349,7 +351,7 @@ def do_test2(args):
     config.embed_size = embeddings.shape[1]
 
     with tf.Graph().as_default():
-        logger.info("Building model...",)
+        logger.info("Building model...", )
         start = time.time()
         model = WindowModel(helper, config, embeddings)
         logger.info("took %.2f seconds", time.time() - start)
@@ -378,10 +380,10 @@ def do_train(args):
     handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s: %(message)s'))
     logging.getLogger().addHandler(handler)
 
-    report = None #Report(Config.eval_output)
+    report = None  # Report(Config.eval_output)
 
     with tf.Graph().as_default():
-        logger.info("Building model...",)
+        logger.info("Building model...", )
         start = time.time()
         model = WindowModel(helper, config, embeddings)
         logger.info("took %.2f seconds", time.time() - start)
@@ -401,12 +403,12 @@ def do_train(args):
                 sentences, labels, predictions = zip(*output)
                 predictions = [[LBLS[l] for l in preds] for preds in predictions]
                 output = zip(sentences, labels, predictions)
-
                 with open(model.config.conll_output, 'wb') as f:
                     write_conll(f, output)
                 with open(model.config.eval_output, 'wb') as f:
                     for sentence, labels, predictions in output:
                         print_sentence(f, sentence, labels, predictions)
+
 
 def do_evaluate(args):
     config = Config(args.model_path)
@@ -416,7 +418,7 @@ def do_evaluate(args):
     config.embed_size = embeddings.shape[1]
 
     with tf.Graph().as_default():
-        logger.info("Building model...",)
+        logger.info("Building model...", )
         start = time.time()
         model = WindowModel(helper, config, embeddings)
 
@@ -432,6 +434,7 @@ def do_evaluate(args):
                 predictions = [LBLS[l] for l in predictions]
                 print_sentence(args.output, sentence, labels, predictions)
 
+
 def do_shell(args):
     config = Config(args.model_path)
     helper = ModelHelper.load(args.model_path)
@@ -439,7 +442,7 @@ def do_shell(args):
     config.embed_size = embeddings.shape[1]
 
     with tf.Graph().as_default():
-        logger.info("Building model...",)
+        logger.info("Building model...", )
         start = time.time()
         model = WindowModel(helper, config, embeddings)
         logger.info("took %.2f seconds", time.time() - start)
@@ -451,15 +454,14 @@ def do_shell(args):
             session.run(init)
             saver.restore(session, model.config.model_output)
 
-            print("""Welcome!
-                    You can use this shell to explore the behavior of your model.
-                    Please enter sentences with spaces between tokens, e.g.,
-                    input> Germany 's representative to the European Union 's veterinary committee .
-                    """)
+            print("""Welcome!\n can use this shell to explore the behavior of your model.
+                Please enter sentences with spaces between tokens, e.g.,
+                input> Germany's representative to the European Union's veterinary committee.
+                """)
             while True:
                 # Create simple REPL
                 try:
-                    sentence = raw_input("input> ")
+                    sentence = input("input> ")
                     tokens = sentence.strip().split(" ")
                     for sentence, _, predictions in model.output(session, [(tokens, ["O"] * len(tokens))]):
                         predictions = [LBLS[l] for l in predictions]
@@ -467,6 +469,7 @@ def do_shell(args):
                 except EOFError:
                     print("Closing session.")
                     break
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Trains and tests an NER model')
