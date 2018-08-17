@@ -15,9 +15,11 @@ According to the first question, we are there is only one script that we need to
 
 One of the things that helped me understand this `WindowModel` is the following graph:
 
-![]()
+![WindowModel](http://www.mediafire.com/convkey/3627/8oj7mhrkiyfjxx1zg.jpg)
 
-As we can see, ...
+As we can see, we have a two-layer neural network where the input contains the features for our window. The input shape is `D` where `D` equal the number of features for every word in our window. So, assuming that the window size is just one (one on the left and one on the right), then `D` will equal to (*3* * *number of word feature*s * *size of word embedding*). The *number of word features* can be found in the member variable `self.config.n_word_features`, the window size can be found in `self.config.window_size` and the width of word embedding can be found in `self.config.embed_size`.
+
+The number of hidden neurons in our hidden layer `H` is equal to the hidden size determined by the member variable `self.hidden_size`. Finally, the number of neurons in the output layer `C` can be found in the member variable `self.n_classes`.
 
 
 
