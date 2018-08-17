@@ -21,3 +21,13 @@ Natural language processing (NLP) is one of the most important technologies of t
 
 ## Material
 You can download all the materials from the Course official website which can be found [here](http://web.stanford.edu/class/cs224n/).
+
+
+
+# CAUTION
+
+This course was created in 2017 when TensorFlow 0.19 was a thing. By then, TensorFlow used to run on Python2. Now, all TensorFlow versions will be running on Python3.
+
+That's why I solved this course using Python3 and TensorFlow 1.9. In every assignment, I have written a **starter code** for python3 that you can download and start the assignment with no problem.
+
+If you found any bug in my solution, please don't hesitate reporting it.
