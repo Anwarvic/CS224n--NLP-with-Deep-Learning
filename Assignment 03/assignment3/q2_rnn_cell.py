@@ -62,13 +62,23 @@ class RNNCell(tf.nn.rnn_cell.RNNCell):
         # be defined elsewhere!
         with tf.variable_scope(scope):
             ### YOUR CODE HERE (~6-10 lines)
-            pass
+            W_x = tf.get_variable(name='W_x', shape=[self.input_size, self._state_size], initializer=tf.contrib.layers.xavier_initializer())
+            W_h = tf.get_variable(name='W_h', shape=[self._state_size, self._state_size], initializer=tf.contrib.layers.xavier_initializer())
+            b = tf.get_variable(name='b', shape=[self._state_size, ], initializer=tf.zeros_initializer())
+            h_t = tf.sigmoid( tf.matmul(inputs, W_x) + tf.matmul(state, W_h) + b )
+            new_state = h_t
+            # U = tf.get_variable(name='U', shape=, initializer=tf.contrib.layers.xavier_initializer())
+            # b2 = tf.get_variable(name='b2', shape=, initializer=tf.zeros_initializer())
+            # new_state = tf.nn.softmax(tf.matmul(h_t, U) + b2)
             ### END YOUR CODE ###
         # For an RNN , the output and state are the same (N.B. this
         # isn't true for an LSTM, though we aren't using one of those in
         # our assignment)
         output = new_state
         return output, new_state
+
+
+
 
 def test_rnn_cell():
     with tf.Graph().as_default():
