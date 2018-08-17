@@ -11,7 +11,7 @@ from __future__ import division
 import sys
 import time
 import logging
-import StringIO
+# import StringIO
 from collections import defaultdict, Counter, OrderedDict
 import numpy as np
 from numpy import array, zeros, allclose
@@ -75,9 +75,9 @@ def write_conll(fstream, data):
     """
     for cols in data:
         for row in zip(*cols):
-            fstream.write("\t".join(row))
-            fstream.write("\n")
-        fstream.write("\n")
+            fstream.write("\t".join(row).encode())
+            fstream.write(b"\n")
+        fstream.write(b"\n")
 
 def test_write_conll():
     input = [
