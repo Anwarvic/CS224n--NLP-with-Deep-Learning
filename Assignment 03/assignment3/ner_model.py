@@ -119,7 +119,6 @@ class NERModel(Model):
 
         train_examples = self.preprocess_sequence_data(train_examples_raw)
         dev_set = self.preprocess_sequence_data(dev_set_raw)
-
         for epoch in range(self.config.n_epochs):
             logger.info("Epoch %d out of %d", epoch + 1, self.config.n_epochs)
             score = self.run_epoch(sess, train_examples, dev_set, train_examples_raw, dev_set_raw)
@@ -132,4 +131,5 @@ class NERModel(Model):
             if self.report:
                 self.report.log_epoch()
                 self.report.save()
+            
         return best_score
