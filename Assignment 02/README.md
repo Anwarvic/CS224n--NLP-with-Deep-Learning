@@ -20,7 +20,7 @@ To:
 
 ## Heads-up
 
-I really find the assignment description very helpful. I think that's all you need to be able to solve this assignment. The following is some pieces of advice that could be helpful (hopefully):
+I really found the assignment description very helpful. I think that's all you need to be able to solve this assignment. The following is some pieces of advice that could be helpful (hopefully):
 
 - This assignment doesn't need a full comprehension of TensorFlow, you need just to know the basics. I found the lecture 7 video, which was an introduction for TensorFlow, not that helpful especially I was a beginner. But I find the Stanford Course "[TensorFlow for Deep Learning Research](http://web.stanford.edu/class/cs20si/)" is pretty helpful. You don't have to take the whole course, just the first three lecture notes will be more than enough. BTW, it's the best source for learning TensorFlow, I highly recommend it.
 
@@ -29,6 +29,10 @@ I really find the assignment description very helpful. I think that's all you ne
   `$ python q1_classifier.py`
 
   This ensures that any files created in the process don't pollute the code directory.
+
+
+
+## Output (for reference)
 
 After running the `q2_parser_model.py` in debug mode (the default), we get an output of:
 
