@@ -43,7 +43,7 @@ class RNNCell(tf.nn.rnn_cell.RNNCell):
         TODO: In the code below, implement an RNN cell using @inputs
         (x_t above) and the state (h_{t-1} above).
             - Define W_x, W_h, b to be variables of the apporiate shape
-              using the `tf.get_variable' functions. Make sure you use
+              using the 'tf.get_variable' functions. Make sure you use
               the names "W_x", "W_h" and "b"!
             - Compute @new_state (h_t) defined above
         Tips:
@@ -67,9 +67,6 @@ class RNNCell(tf.nn.rnn_cell.RNNCell):
             b = tf.get_variable(name='b', shape=[self._state_size, ], initializer=tf.zeros_initializer())
             h_t = tf.sigmoid( tf.matmul(inputs, W_x) + tf.matmul(state, W_h) + b )
             new_state = h_t
-            # U = tf.get_variable(name='U', shape=, initializer=tf.contrib.layers.xavier_initializer())
-            # b2 = tf.get_variable(name='b2', shape=, initializer=tf.zeros_initializer())
-            # new_state = tf.nn.softmax(tf.matmul(h_t, U) + b2)
             ### END YOUR CODE ###
         # For an RNN , the output and state are the same (N.B. this
         # isn't true for an LSTM, though we aren't using one of those in
