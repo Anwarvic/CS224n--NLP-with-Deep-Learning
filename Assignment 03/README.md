@@ -124,3 +124,75 @@ According to the second question, there are two files that need to be done:
 - `q2_rnn_cell.py`
 - `q2_rnn.py`
 
+
+
+
+### q2_rnn_cell
+
+This is the first problem in q2, and it's pretty straight-forward, you will have to write about five lines of code. This graph will be very helpful with solving this problem:
+
+![RNN Cell](http://www.mediafire.com/convkey/052b/79gso5gfmd32adyzg.jpg)
+
+Putting in mind that:
+
+- `x_t` is the `inputs`, whose shape is `[None, input_size]` and `None` can be any number.
+- `h_{t-1}` is the `state`, whose shape is `[None, state_size]` and `None` is the same number as `inputs`. 
+- `y_t` and `h_t` are the same.
+
+
+
+### q2_rnn
+
+The script that we have managed to solve in the first question `q1_window.py` will be a huge help to solve this problem putting in mind some major differences like:
+
+- `add_operation_op` at which you have to iterate over time_steps and then adjust the `pred` shape.
+- `add_loss_op` at which you have to make the `preds` and `labels` before calculating the loss.
+
+> **HEADS-UP:**
+> There is a function called `consolidate_predictions()`; I have commented the assertion line cuz it doesn't make sense to me at all:
+>
+> ```python
+> >>> assert len(labels_) == len(labels)
+> ```
+>
+> As we can see, the line before it is used to filter the predictions where the associated mask is `False`.
+
+After running this script with `python q2_rnn.py test2`, you should get an output similar to this:
+
+```powershell
+INFO:Epoch 10 out of 10
+23/23 [==============================] - 4s - train loss: 0.1927
+
+INFO:Evaluating on development data
+23/23 [==============================] - 19s
+DEBUG:Token-level confusion matrix:
+go\gu   PER     ORG     LOC     MISC    O
+PER     786.00  3.00    6.00    4.00    25.00
+ORG     88.00   178.00  23.00   26.00   76.00
+LOC     18.00   14.00   513.00  9.00    23.00
+MISC    24.00   21.00   14.00   170.00  29.00
+O       29.00   13.00   4.00    3.00    7067.00
+
+DEBUG:Token-level scores:
+label   acc     prec    rec     f1
+PER     0.98    0.83    0.95    0.89
+ORG     0.97    0.78    0.46    0.57
+LOC     0.99    0.92    0.89    0.90
+MISC    0.99    0.80    0.66    0.72
+O       0.98    0.98    0.99    0.99
+micro   0.98    0.95    0.95    0.95
+macro   0.98    0.86    0.79    0.81
+not-O   0.98    0.85    0.80    0.82
+
+INFO:Entity level P/R/F1: 0.74/0.76/0.75
+
+INFO:Model did not crash!
+INFO:Passed!
+```
+
+---
+
+## q3
+
+
+
