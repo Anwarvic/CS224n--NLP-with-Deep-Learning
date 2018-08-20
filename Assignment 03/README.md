@@ -85,7 +85,7 @@ Here, there are the outputs (for reference) that I got when running `q1_window.p
 - `evaluate`
 
   ```powershell
-  $ python .\q1_window.py evaluate -m 'results\window\20180817_102055\' > 'results\window\20180817_102055\results.txt'
+  $ python .\q1_window.py evaluate -m 'results\window\20180817_102055\' -o 'results\window\20180817_102055\results.txt'
   INFO:Initialized embeddings.
   INFO:Building model...
   INFO:took 6.81 seconds
@@ -96,7 +96,7 @@ Here, there are the outputs (for reference) that I got when running `q1_window.p
 - `shell`
 
   ```powershell
-  $ python .\q1_window.py shell -m 'results\window\20180816_170849\'
+  $ python .\q1_window.py shell
   INFO:Initialized embeddings.
   INFO:Building model...
   INFO:took 7.62 seconds
@@ -107,9 +107,9 @@ Here, there are the outputs (for reference) that I got when running `q1_window.p
    Please enter sentences with spaces between tokens, e.g.,
    input> Germany's representative to the European Union's veterinary committee.
 
-  input> x : I visited Turkey and with Zeynep last summer
+  input> x : I visited Turkey with Zeynep last summer
   y*:
-  y': O O       LOC    O   O    MISC   O    O
+  y': O O       LOC    O    MISC   O    O
   input>
   ```
 
@@ -188,6 +188,54 @@ INFO:Entity level P/R/F1: 0.74/0.76/0.75
 
 INFO:Model did not crash!
 INFO:Passed!
+```
+
+After running this script with `python q2_rnn.py train`, you should get an output similar to this:
+
+```powershell
+INFO:Epoch 10 out of 10
+439/439 [==============================] - 407s - train loss: 0.0361
+
+INFO:Evaluating on development data
+102/102 [==============================] - 220s
+DEBUG:Token-level confusion matrix:
+go\gu           PER             ORG             LOC             MISC            O
+PER             2977.00         30.00           69.00           9.00            64.00
+ORG             139.00          1640.00         117.00          49.00           147.00
+LOC             45.00           93.00           1901.00         15.00           40.00
+MISC            36.00           49.00           51.00           1012.00         120.00
+O               39.00           49.00           20.00           19.00           42632.00
+
+DEBUG:Token-level scores:
+label   acc     prec    rec     f1
+PER     0.99    0.92    0.95    0.93
+ORG     0.99    0.88    0.78    0.83
+LOC     0.99    0.88    0.91    0.89
+MISC    0.99    0.92    0.80    0.85
+O       0.99    0.99    1.00    0.99
+micro   0.99    0.98    0.98    0.98
+macro   0.99    0.92    0.89    0.90
+not-O   0.99    0.90    0.88    0.89
+
+INFO:Entity level P/R/F1: 0.83/0.85/0.84
+
+102/102 [==============================] - 248s
+```
+
+Running this script with the `train` tag takes around 2 hours!!
+
+Now, let's run `python q2_rnn.py evaluate`:
+
+```powershell
+$ python .\q2_rnn.py evaluate -m 'results\rnn\20180819_230024\' -o 'results\rnn\20180819_230024\results.txt'
+INFO:Initialized embeddings.
+INFO:Building model...
+C:\Users\anwar\Anaconda3\lib\site-packages\tensorflow\python\ops\gradients_impl.py:100: UserWarning: Converting sparse IndexedSlices to a dense Tensor of unknown shape. This may consume a large amount of memory.
+  "Converting sparse IndexedSlices to a dense Tensor of unknown shape. "
+INFO:took 25.87 seconds
+INFO:tensorflow:Restoring parameters from results\rnn\20180819_230024\model.weights
+INFO:Restoring parameters from results\rnn\20180819_230024\model.weights
+102/102 [==============================] - 240s
 ```
 
 ---
