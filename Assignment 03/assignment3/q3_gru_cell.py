@@ -79,7 +79,7 @@ class GRUCell(tf.nn.rnn_cell.RNNCell):
             
             r_t = tf.sigmoid(tf.matmul(inputs, U_z) + tf.matmul(state, W_z) + b_z)
 
-            #---------- define output_gate variables ----------
+            #---------- define output variables (new memory content) ----------
             U_o = tf.get_variable(name='U_o', shape=[self.input_size, self.state_size], initializer=tf.contrib.layers.xavier_initializer())
             W_o = tf.get_variable(name='W_o', shape=[self.state_size, self.state_size], initializer=tf.contrib.layers.xavier_initializer())
             b_o = tf.get_variable(name='b_o', shape=[self.state_size, ], initializer=tf.zeros_initializer())
@@ -87,7 +87,6 @@ class GRUCell(tf.nn.rnn_cell.RNNCell):
             o_t = tf.tanh(tf.matmul(inputs, U_o) + tf.multiply(r_t, tf.matmul(state, W_o)) + b_o)
             h_t = tf.multiply(z_t, state) + tf.multiply(tf.subtract(1., z_t), o_t)
             new_state = h_t
-
             ### END YOUR CODE ###
         # For a GRU, the output and state are the same (N.B. this isn't true
         # for an LSTM, though we aren't using one of those in our
