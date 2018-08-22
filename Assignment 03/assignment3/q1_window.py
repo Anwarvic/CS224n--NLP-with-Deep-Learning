@@ -454,10 +454,11 @@ def do_shell(args):
             session.run(init)
             saver.restore(session, model.config.model_output)
 
-            print("""Welcome!\n can use this shell to explore the behavior of your model.
-                Please enter sentences with spaces between tokens, e.g.,
-                input> Germany's representative to the European Union's veterinary committee.
-                """)
+            print("""Welcome!
+can use this shell to explore the behavior of your model.
+Please enter sentences with spaces between tokens, e.g.,
+input> Germany's representative to the European Union's veterinary committee.
+""")
             while True:
                 # Create simple REPL
                 try:
