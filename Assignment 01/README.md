@@ -30,13 +30,13 @@ In this script, we have to implement just two functions, let's discuss them one 
 
 #### 1) sigmoid
 
-This is a super simple function that applies the sigmoid function upon a given numpy.array. We are simple going to perform this equation:
+This is a super simple function that applies the sigmoid function upon a given `numpy.array`. We are simply going to perform this equation:
 
 ![Sigmoid](http://www.mediafire.com/convkey/6dcb/958jrjh8icaddh4zg.jpg)
 
 #### 2) sigmoid_grad
 
-This is also a super simple function that applies gradient upon the sigmoid function . We are simple going to perform this equation:
+This is also a super simple function that applies gradient upon the sigmoid function . We are going to perform this equation:
 
 ![Sigmoid Gradient](http://www.mediafire.com/convkey/8b43/bpxf82cf1wawq8jzg.jpg)
 
@@ -46,7 +46,7 @@ In this script, we have to implement just one function which is:
 
 #### gradcheck_naive
 
-Gradient Checking is a techniques used to make sure that our implementation of Gradient Descent/Ascent is completely correct. It will be very useful to check [Gradient Checking Video](https://www.youtube.com/watch?v=P6EtCVrvYPU) made by Andrew Ng. which was part of the Deep Learning Specialization at Coursera.
+Gradient Checking is a techniques used to make sure that our implementation of Gradient Descent/Ascent is completely correct. It will be very useful to watch the [Gradient Checking Video](https://www.youtube.com/watch?v=P6EtCVrvYPU) made by Andrew Ng. which was part of the Deep Learning Specialization at Coursera.
 
 In summary, we have to calculate four parameters:
 
@@ -108,7 +108,7 @@ This model has different functions in it, let's discuss them one by one:
 
 #### 1) normalizeRows
 
-Since the range of values of raw data varies widely, in some machine learning algorithms,objective functions will not work properly without normalization. We should put in mind that re-scaling a feature doesn’t mean that we are changing it. For example, if someone told you that he got 8/10 in an exam, it’s the same if he said he got 80%  ...right? That’s what we mean by scaling, we are just performing some formula over all the data points to make it more comprehensible as we can see in the following graph:
+Since the range of values of raw data varies widely, in some machine learning algorithms, objective functions will not work properly without normalization. We should put in mind that re-scaling a feature doesn’t mean that we are changing it. For example, if someone told you that he got 8/10 in an exam, it’s the same if he said he got 80% ... right? That’s what we mean by re-scaling, we are just performing some formula over all the data points to make it more comprehensible as we can see in the following graph:
 
 ![Normalization](http://www.mediafire.com/convkey/bb95/q92a7akz88dn8g8zg.jpg)
 
@@ -121,11 +121,12 @@ There are multiple types of normalization, here we are going to use Frobenius no
 You can check the function description within the script, but I couldn't understand what this function does especially when there is no test for it and to be able to run it, you have to complete the whole Skipgram/CBOW model.
 
 So, I will explain what this function does here in this part, but first you need
-to change some of the variable names just to make things simpler as the variable names are not indicative:
--> 'predicted' is the input of the last layer, so we will call it `V`.
--> 'outputVectors' is the weights of the output layer and we will call it `U`.
+to change some of the variable names just to make things simpler as the variable names are not indicative at all:
 
-To make things a little simple, I have drawn a simple graph of the output layer to explain what I mean:
+- `predicted` is the input of the last layer, so we will call it `V`.
+-  `outputVectors` is the weights of the output layer and we will call it `U`.
+
+To make things simpler, I have drawn a simple graph of the output layer to explain what I mean:
 
 ![Last-layer Cost using Softmax](http://www.mediafire.com/convkey/7b19/9vg7m2gfprr6e5pzg.jpg)
 
@@ -137,7 +138,7 @@ Let's explain some of the things about this graph:
 
 ![Model Prediction](http://www.mediafire.com/convkey/e3a3/ybtua7dh9y28utazg.jpg)
 
-Now, we need to calculate the "Cross Entropy" cost function:
+After performing the forward propagation, we need to calculate the "Cross Entropy" cost function:
 
 ![Cross Entropy, its gradient](http://www.mediafire.com/convkey/54a2/c0kejpq1te44ozuzg.jpg)
 
@@ -152,7 +153,7 @@ After that we update our parameters, putting in mind that:
 
 #### 3) negSamplingCostAndGradient
 
-Here, we are going to do the same as we have done with the previous function but using Negative Sampling. This function is pretty similar to the previous function except for two things actually:
+Here, we are going to do the same thing as we have done with the previous function but using Negative Sampling. This function is pretty similar to the previous function except for three things actually:
 
 - This function uses `sigmoid` activation function rather than `softmax`.
 - Use $U_{target}$ instead of $U$ like so:
@@ -161,7 +162,7 @@ Here, we are going to do the same as we have done with the previous function but
 
 - We update our parameters row-by-row for a number of times specified by the variable `K`.
 
-So, if you did the previous function, repeat its steps with these small modification in mind.
+So, if you did the previous function, repeat its steps putting these small modification in mind.
 
 
 
@@ -203,7 +204,7 @@ In this problem, we will implement a dummy algorithm for Stochastic Gradient Des
 
 The update rule does not change. What changes is that we would be computing gradients on just one training example at a time, rather than on the whole training set. When the training set is large, SGD can be faster than Gradient Descent. So, it's an important algorithm to be put in our toolkit.
 
-Solving this problem is so simple, and it doesn't depend on any of the previous problems. In this part, you will need to write 5 lines of code at most.. Let's discuss some of the variables that you will need to use:
+Solving this problem is so simple, and it doesn't depend on any of the previous problems. In this part, you will need to write 5 lines of code at most.. Let's discuss some of the variables that you will use:
 
 - `f` is the function we need to optimize.. it returns two values (`cost` and `gradient`).
 - `expcost` or exponential cost which is simply the summation of the `cost` the we get from every iteration.
@@ -215,12 +216,11 @@ Enjoy!!
 
 ### q3_run (OPTIONAL)
 
-Now we are going to load some real data and train word vectors with everything
+Now, we are going to load some real data and train word vectors with everything!!
 we just implemented! We are going to use the Stanford Sentiment Treebank (SST) dataset to train word
-vectors, and later apply them to a simple sentiment analysis task. You will need to fetch the datasets. To do this, run `get datasets.sh`. There is no additional code to write for this part; just
-run the script.
+vectors, and later apply them to a simple sentiment analysis task. You will need to fetch the datasets. To do this, run `get datasets.sh`. 
 
-The training process may take an hour. And here is the last few lines of the output I got from running this script:
+There is no additional code to write for this part; just run the `q3_run.py` script. The training process may take an hour. And here is the last few lines of the output I got from running this script:
 
 ```
 iter 39980: 1875.620067
@@ -247,9 +247,9 @@ To the last part of the first assignment... This part is going to be a bit long,
 In the *utils* directory, there are a directory and three files:
 
 - `datasets` directory... If you couldn't find it, then you should download the datasets by running the *get_datasets.sh* file.
-- `__init__.py` file: it's empty. The `__init__.py` files are required to make Python treat the directories as containing packages
+- `__init__.py` file: it's empty. The `__init__.py` files are required to make Python treat the directories as packages
 - `glove.py` file: it's used to load the `glove.6B.50d.txt` pre-trained word vectors.
-- `treebank.py` file: it contains just one class (`StanfordSentiment`) that will will talk  about it a bit.
+- `treebank.py` file: it contains just one class (`StanfordSentiment`) that we will talk about in a bit.
 
 Now, let's get to the last two files in more details:
 
@@ -297,7 +297,7 @@ This file has only one class (`StanfordSentiment`) which has around 17 methods..
 This function returns a dictionary of words and their indexes. Each word has only one index associated with it.
 
 ```python
->>>from utils.treebank import StanfordSentiment
+>>> from utils.treebank import StanfordSentiment
 >>>
 >>> dataset = StanfordSentiment()
 >>> tokens = dataset.tokens()
@@ -305,6 +305,7 @@ This function returns a dictionary of words and their indexes. Each word has onl
 <type 'dict'>
 >>> #sort tokens based on their values (word index)
 >>> sortedTokens = sorted(tokens.items(), key=lambda x: x[1])
+>>> #iterate over these sorted tokens
 >>> for k, v in sortedTokens:
 ...     print(k, v)
 the 0
@@ -335,17 +336,19 @@ This function returns a list of sentences from the `datasetSentences.txt` file l
 [(['the', 'rock', 'is', 'destined', 'to', 'be', 'the', '21st', 'century', "'s", 'new', '``', 'conan', "''", 'and', 'that', 'he', "'s", 'going', 'to', 'make', 'a', 'splash', 'even', 'greater', 'than', 'arnold', 'schwarzenegger', ',', 'jean-claud', 'van', 'damme', 'or', 'steven', 'segal', '.'], 3), (['the', 'gorgeously', 'elaborate', 'continuation', 'of', '``', 'the', 'lord', 'of', 'the', 'rings', "''", 'trilogy', 'is', 'so', 'huge', 'that', 'a', 'column', 'of', 'words', 'can', 'not', 'adequately', 'describe', 'co-writer\\/director', 'peter', 'jackson', "'s", 'expanded', 'vision', 'of', 'j.r.r.', 'tolkien', "'s", 'middle-earth', '.'], 4)]
 ```
 
-As we can see, each item in the `trainset` is a tuple where the first value is a list of words exist in the list, and the second value is label for this sentence. As said in the *assignment1.pdf* file is that "The sentiment level of the phrases are represented as real values in the original dataset, here we'll just use five classes:
+As we can see, each item in the `trainset` is a tuple of two values where:
 
-- 0 very negative
-- 1 negative
-- 2 neutral
-- 3 positive
-- 4 very positive
+-  The first value is a list of words exist in the list
+- The second value is the label for this sentence. Here we have five classes:
+  - `0`: very negative
+  - `1`: negative
+  - `2`: neutral
+  - `3`: positive
+  - `4`: very positive
 
-These values are determined by the `sentiment_labels.txt` file which has a score for every sentence. The score is a value between 0 and 1, then these values are mapped to the previous discrete values [0, 1, 2, 3, 4] using `categorify` method.
+These values are determined by the `sentiment_labels.txt` file which has a score for every sentence. The score is a value between 0 and 1, then these values are mapped to the previous discrete values [0, 1, 2, 3, 4] using the  `categorify` method.
 
-Now to the more important question, why the number of sentences used in the training is 8544 and not the whole 11855 sentences??? The answer because the whole sentences is split into three sets (Train, Dev and Test). 
+Now, to the more important question, why the number of sentences used in the training is 8544 and not the whole 11855 sentences??? The answer because the whole sentences is split into three sets (Train, Dev and Test). 
 
 ###### 2) getDevSentences
 
@@ -383,7 +386,7 @@ This function does the same job as `getTrainSentences` and `getDevSentences`.
 [(['effective', 'but', 'too-tepid', 'biopic'], 2), (['if', 'you', 'sometimes', 'like', 'to', 'go', 'to', 'the', 'movies', 'to', 'have', 'fun', ',', 'wasabi', 'is', 'a', 'good', 'place', 'to', 'start', '.'], 3)]
 ```
 
-Now, we have know all the methods that we need to use in our task. 
+Now, we have known all the methods that we need to use in our task. 
 
 #### Required methods:
 
