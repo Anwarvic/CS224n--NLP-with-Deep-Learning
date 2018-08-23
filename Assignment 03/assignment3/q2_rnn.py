@@ -107,7 +107,7 @@ def pad_sequences(data, max_length):
         n = len(sentence)   #length of the sentence
         sentence += [zero_vector] * (max_length - n)
         labels += [zero_label] * (max_length - n)
-        mask = [True]*n + [False]*(max_length-n)
+        mask = [True] * n + [False] * (max_length - n)
         ret.append( (sentence[:max_length], labels[:max_length], mask[:max_length]) )
         ### END YOUR CODE ###
     return ret
@@ -528,14 +528,15 @@ def do_shell(args):
             session.run(init)
             saver.restore(session, model.config.model_output)
 
-            print("""Welcome!\n can use this shell to explore the behavior of your model.
-                Please enter sentences with spaces between tokens, e.g.,
-                input> Germany's representative to the European Union's veterinary committee.
-                """)
+            print("""Welcome!
+can use this shell to explore the behavior of your model.
+Please enter sentences with spaces between tokens, e.g.,
+input> Germany's representative to the European Union's veterinary committee.
+""")
             while True:
                 # Create simple REPL
                 try:
-                    sentence = raw_input("input> ")
+                    sentence = input("input> ")
                     tokens = sentence.strip().split(" ")
                     for sentence, _, predictions in model.output(session, [(tokens, ["O"] * len(tokens))]):
                         predictions = [LBLS[l] for l in predictions]
