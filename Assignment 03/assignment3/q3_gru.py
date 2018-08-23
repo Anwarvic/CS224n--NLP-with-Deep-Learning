@@ -67,7 +67,7 @@ class SequencePredictor(Model):
 
         TODO: 
             - Call tf.nn.dynamic_rnn using @cell below. See:
-              https://www.tensorflow.org/api_docs/python/nn/recurrent_neural_networks
+              https://www.tensorflow.org/api_docs/python/tf/nn/dynamic_rnn
             - Apply a sigmoid transformation on the final state to
               normalize the inputs between 0 and 1.
 
@@ -87,6 +87,8 @@ class SequencePredictor(Model):
 
         x = self.inputs_placeholder
         ### YOUR CODE HERE (~2-3 lines)
+        preds, _ = tf.nn.dynamic_rnn(cell=cell, inputs=x)   #shape(None, cell.state_size)
+        preds = tf.sigmoid(preds)                           #shape(None, 1)
         ### END YOUR CODE
 
         return preds #state # preds
@@ -100,7 +102,7 @@ class SequencePredictor(Model):
               useful.
 
         Args:
-            pred: A tensor of shape (batch_size, 1) containing the last
+            preds: A tensor of shape (batch_size, 1) containing the last
             state of the neural network.
         Returns:
             loss: A 0-d tensor (scalar)
@@ -108,7 +110,8 @@ class SequencePredictor(Model):
         y = self.labels_placeholder
 
         ### YOUR CODE HERE (~1-2 lines)
-
+        loss = tf.nn.l2_loss(preds-y)
+        loss = tf.reduce_mean(loss)
         ### END YOUR CODE
 
         return loss
@@ -123,7 +126,7 @@ class SequencePredictor(Model):
         TODO:
             - Get the gradients for the loss from optimizer using
               optimizer.compute_gradients.
-            - if self.clip_gradients is true, clip the global norm of
+            - if self.config.clip_gradients is true, clip the global norm of
               the gradients using tf.clip_by_global_norm to self.config.max_grad_norm
             - Compute the resultant global norm of the gradients using
               tf.global_norm and save this global norm in self.grad_norm.
@@ -139,11 +142,19 @@ class SequencePredictor(Model):
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=self.config.lr)
 
         ### YOUR CODE HERE (~6-10 lines)
-
+        grads_and_vars = optimizer.compute_gradients(loss)
+        #convert a list of tuples into different lists
+        gradients, variables = zip(*grads_and_vars)
         # - Remember to clip gradients only if self.config.clip_gradients
         # is True.
+        if self.config.clip_gradients: #True
+            gradients = tf.clip_by_global_norm(gradients, self.config.max_grad_norm)
+            variables = variables[:len(gradients)]
+            #combine different lists into a list of tuples
+            grads_and_vars = list(zip(gradients, variables))
         # - Remember to set self.grad_norm
-
+        self.grad_norm = tf.global_norm(gradients)
+        train_op = optimizer.apply_gradients(grads_and_vars)
         ### END YOUR CODE
 
         assert self.grad_norm is not None, "grad_norm was not set properly!"
