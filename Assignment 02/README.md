@@ -2,7 +2,7 @@
 
 ## Requirements
 
-In this assignment I have used TensorFlow 1.19.0. In the past, TensorFlow was available for both Python2.7 and Python3. Now, it's only available in Python3. This code was written in Python2. So, I had to re-write it for Python3 and you can download my re-written code from [here](http://www.mediafire.com/file/hvg82wc1t4xaogl/assignment2%28python3%29.rar/file).
+In this assignment I have used TensorFlow 1.9.0. In the past, TensorFlow was available for both Python2 and Python3. Now, it's only available in Python3. This code was written in Python2. So, I had to re-write it for Python3 and you can download the starter code in python3 from [here](http://www.mediafire.com/file/hvg82wc1t4xaogl/assignment2%28python3%29.rar/file).
 
 Another thing to point out... in the file `parser_utils.py`, I changed the importing line from:
 
@@ -20,9 +20,9 @@ To:
 
 ## Heads-up
 
-I really found the assignment description very helpful. I think that's all you need to be able to solve this assignment. The following is some pieces of advice that could be helpful (hopefully):
+I really found the assignment description very helpful. I think that's all you need to be able to solve this assignment. The following are some pieces of advice that might be helpful (hopefully):
 
-- This assignment doesn't need a full comprehension of TensorFlow, you need just to know the basics. I found the lecture 7 video, which was an introduction for TensorFlow, not that helpful especially I was a beginner. But I find the Stanford Course "[TensorFlow for Deep Learning Research](http://web.stanford.edu/class/cs20si/)" is pretty helpful. You don't have to take the whole course, just the first three lecture notes will be more than enough. BTW, it's the best source for learning TensorFlow, I highly recommend it.
+- This assignment doesn't need a full comprehension of TensorFlow, you need just to know the basics. I found the lecture 7 video, which was an introduction for TensorFlow, not that helpful especially I was a beginner. So I searched for a better tutorials and I found the Stanford Course "[TensorFlow for Deep Learning Research](http://web.stanford.edu/class/cs20si/)" is pretty helpful. You don't have to take the whole course, just the first three lecture notes will be more than enough. BTW, it's the best source for learning TensorFlow I have come through and I have come through a lot, I highly recommend it.
 
 - Note that, you will always want to run your code from this assignment directory, not any other directory, like so:
 
@@ -36,7 +36,7 @@ I really found the assignment description very helpful. I think that's all you n
 
 After running the `q2_parser_model.py` in debug mode (the default), we get an output of:
 
-```
+```powershell
 ================================================================================
 INITIALIZING
 ================================================================================
@@ -110,7 +110,7 @@ When running with `debug=False`, you should be able to get a loss smaller than 0
 set (by the end of the last epoch) and an Unlabeled Attachment Score larger than 88 on the dev set
 (with the best-performing model out of all the epochs). I got 85.77 on the Dev set, and 86.10 on the test set. 
 
-```
+```powershell
 ================================================================================
 INITIALIZING
 ================================================================================
