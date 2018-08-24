@@ -2,7 +2,7 @@
 
 ## Requirements
 
-To be able to solve this assignment, we need to install a few packages which can be found in the `requirements.txt` file. The dataset is downloaded already and ready to be used. 
+To be able to solve this assignment, we need to install a few packages which can be found in the `requirements.txt` file. The dataset is downloaded already and ready to be used.  This assignment was written for python2.7 and Tensorflow 0.12. Tensorflow now is supported by python3 only. So, I have re-written the starting code in python3. You can downloaded it from [here](http://www.mediafire.com/file/yvh554zv5n2dbd3/starter_code.rar/file)
 
 ---
 
