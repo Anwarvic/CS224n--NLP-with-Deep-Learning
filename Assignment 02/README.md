@@ -2,7 +2,7 @@
 
 ## Requirements
 
-In this assignment I have used TensorFlow 1.9.0. In the past, TensorFlow was available for both Python2 and Python3. Now, it's only available in Python3. This code was written in Python2. So, I had to re-write it for Python3 and you can download the starter code in python3 from [here](http://www.mediafire.com/file/hvg82wc1t4xaogl/assignment2%28python3%29.rar/file).
+In this assignment I have used TensorFlow 1.9.0. In the past, TensorFlow was available for both Python2 and Python3. Now, it's only available in Python3. This code was written in Python2. So, I had to re-write it for Python3 and you can download the starter code in python3 from [here](http://www.mediafire.com/file/hvg82wc1t4xaogl/assignment2%2528python3%2529.rar/file).
 
 Another thing to point out... in the file `parser_utils.py`, I changed the importing line from:
 
