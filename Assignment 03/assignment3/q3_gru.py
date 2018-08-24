@@ -10,6 +10,7 @@ from __future__ import division
 import argparse
 import logging
 import sys
+import os
 import time
 from datetime import datetime
 
@@ -25,7 +26,7 @@ from model import Model
 from q3_gru_cell import GRUCell
 from q2_rnn_cell import RNNCell
 
-matplotlib.use('TkAgg')
+# matplotlib.use('TkAgg')
 logger = logging.getLogger("hw3.q3")
 logger.setLevel(logging.DEBUG)
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -87,8 +88,8 @@ class SequencePredictor(Model):
 
         x = self.inputs_placeholder
         ### YOUR CODE HERE (~2-3 lines)
-        preds, _ = tf.nn.dynamic_rnn(cell=cell, inputs=x)   #shape(None, cell.state_size)
-        preds = tf.sigmoid(preds)                           #shape(None, 1)
+        _, preds = tf.nn.dynamic_rnn(cell=cell, inputs=x, dtype=tf.float32)
+        preds = tf.sigmoid(preds)
         ### END YOUR CODE
 
         return preds #state # preds
@@ -148,7 +149,7 @@ class SequencePredictor(Model):
         # - Remember to clip gradients only if self.config.clip_gradients
         # is True.
         if self.config.clip_gradients: #True
-            gradients = tf.clip_by_global_norm(gradients, self.config.max_grad_norm)
+            gradients, _ = tf.clip_by_global_norm(gradients, self.config.max_grad_norm)
             variables = variables[:len(gradients)]
             #combine different lists into a list of tuples
             grads_and_vars = list(zip(gradients, variables))
@@ -213,8 +214,8 @@ def test_generate_sequence():
         assert seq[0] == y
 
 def make_dynamics_plot(args, x, h, ht_rnn, ht_gru, params):
-    matplotlib.rc('text', usetex=True)
-    matplotlib.rc('font', family='serif')
+    # matplotlib.rc('text', usetex=True)
+    # matplotlib.rc('font', family='serif')
 
     Ur, Wr, br, Uz, Wz, bz, Uo, Wo, bo = params
 
@@ -224,13 +225,14 @@ Ur={:.2f}, Wr={:.2f}, br={:.2f}
 Uz={:.2f}, Wz={:.2f}, bz={:.2f}
 Uo={:.2f}, Wo={:.2f}, bo={:.2f}""".format(x, Ur[0,0], Wr[0,0], br[0], Uz[0,0], Wz[0,0], bz[0], Uo[0,0], Wo[0,0], bo[0]))
 
+    plt.subplots_adjust(top=0.75)
     plt.plot(h, ht_rnn, label="rnn")
     plt.plot(h, ht_gru, label="gru")
     plt.plot(h, h, color='gray', linestyle='--')
-    plt.ylabel("$h_{t}$")
-    plt.xlabel("$h_{t-1}$")
+    plt.ylabel(r"$h_{t}$")
+    plt.xlabel(r"$h_{t-1}$")
     plt.legend()
-    output_path = "{}-{}-{}.png".format(args.output_prefix, x, "dynamics")
+    output_path = os.path.join('figures', "{}-{}-{}.png".format(args.output_prefix, x, "dynamics"))
     plt.savefig(output_path)
 
 def compute_cell_dynamics(args):
@@ -254,6 +256,10 @@ def compute_cell_dynamics(args):
                 br, bz, bo = [vec(x) for x in np.random.randn(3)]
                 params = [Ur, Wr, br, Uz, Wz, bz, Uo, Wo, bo]
 
+                tf.get_variable("W_x", initializer=Ur)
+                tf.get_variable("W_h", initializer=Wr)
+                tf.get_variable("b", initializer=br)
+
                 tf.get_variable("U_r", initializer=Ur)
                 tf.get_variable("W_r", initializer=Wr)
                 tf.get_variable("b_r", initializer=br)
@@ -267,8 +273,8 @@ def compute_cell_dynamics(args):
                 tf.get_variable("b_o", initializer=bo)
 
             tf.get_variable_scope().reuse_variables()
+            y_rnn, h_rnn = RNNCell(1,1)(x_placeholder, h_placeholder, scope="cell")
             y_gru, h_gru = GRUCell(1,1)(x_placeholder, h_placeholder, scope="cell")
-            y_rnn, h_rnn = GRUCell(1,1)(x_placeholder, h_placeholder, scope="cell")
 
             init = tf.global_variables_initializer()
             with tf.Session() as session:
@@ -300,7 +306,7 @@ def make_prediction_plot(args, losses, grad_norms):
     plt.plot(np.arange(grad_norms.size), grad_norms.flatten(), label="Gradients")
     plt.ylabel("Gradients")
     plt.xlabel("Minibatch")
-    output_path = "{}-{}clip-{}.png".format(args.output_prefix, "" if args.clip_gradients else "no", args.cell)
+    output_path = os.path.join('figures', "{}-{}clip-{}.png".format(args.output_prefix, "" if args.clip_gradients else "no", args.cell))
     plt.savefig(output_path)
 
 def do_sequence_prediction(args):
