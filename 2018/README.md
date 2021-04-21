@@ -1,4 +1,4 @@
-# Class Winter 2017-2018
+# Class Winter 2018
 
 In this directory, you can find:
 
