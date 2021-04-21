@@ -1,6 +1,6 @@
 # Stanford_CS224n (NLP with Deep Learning)
 
-This repo contains my solution to the Stanford course "[NLP with Deep Learning](http://web.stanford.edu/class/cs224n/)" under CS224n code by prof. Richard Socher and Prof. Christopher Manning in 2017-2018. 
+This repo contains my solution to the Stanford course "[NLP with Deep Learning](http://web.stanford.edu/class/cs224n/)" under CS224n.
 
 
 ## About This Course
