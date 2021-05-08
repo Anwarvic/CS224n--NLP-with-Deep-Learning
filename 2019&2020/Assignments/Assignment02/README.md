@@ -15,13 +15,6 @@ Once you are done with the assignment you can deactivate this environment by run
 conda deactivate
 ```
 
-## Dataset
-
-To obtain the dataset for this assignment, you need to run the following shell script like so:
-
-
-
-
 ## Steps
 
 ### Part A
@@ -35,7 +28,7 @@ To obtain the dataset for this assignment, you need to run the following shell s
 
 ### Part B
 
-- Complete the implementation for your SGD optimizer in `sgd.py`. Test your implementation by running python `sgd.py`.
+Complete the implementation for your SGD optimizer in `sgd.py`. Test your implementation by running python `sgd.py`.
 
 ### Part C
 Now we are going to load some real data and train word vectors with everything you just implemented! We are going to use the Stanford Sentiment Treebank (SST) dataset to train word vectors, and later apply them to a simple sentiment analysis task.
